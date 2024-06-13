@@ -11,9 +11,16 @@ config_version=5
 [application]
 
 config/name="Gay Flankyball"
-run/main_scene="res://game.tscn"
+run/main_scene="res://stages/stage_root.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+CONST="*res://autoloads/const.tscn"
+GameWorld="*res://autoloads/game_world.gd"
+Options="*res://autoloads/options.gd"
+Sound="*res://autoloads/sound.tscn"
 
 [rendering]
 

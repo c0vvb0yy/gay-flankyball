@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxq4n4h403i74"]
+
+[ext_resource type="Script" path="res://autoloads/game_world.gd" id="1_qgeej"]
+
+[node name="GameWorld" type="Node"]
+script = ExtResource("1_qgeej")
