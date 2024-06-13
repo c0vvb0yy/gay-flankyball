@@ -22,6 +22,15 @@ GameWorld="*res://autoloads/game_world.gd"
 Options="*res://autoloads/options.gd"
 Sound="*res://autoloads/sound.tscn"
 
+[global_group]
+
+ally=""
+enemy=""
+
+[physics]
+
+2d/default_gravity_vector=Vector2(0, 0)
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

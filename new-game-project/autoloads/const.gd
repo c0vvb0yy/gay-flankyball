@@ -1,5 +1,7 @@
 extends Node
 
+const CHARACTER_1 := "fishTile_072"
+const CHARACTER_PLAYER := "fishTile_074"
 
 const STAGE_MAIN := "res://stages/main_menu_stage.tscn"
 const STAGE_GAME := "res://stages/game_stage.tscn"

@@ -69,19 +69,19 @@ func does_savegame_exist():
 		return false
 	return true
 
-func save_gamestate(file_path:String):
+func save_gamestate():
 	var data_to_save := {}
 	data_to_save["Sound"] = Sound.serialize()
 	data_to_save["GameWorld"] = GameWorld.serialize()
 	
-	var file = FileAccess.open(file_path, FileAccess.WRITE)
+	var file = FileAccess.open(SAVEGAME_PATH, FileAccess.WRITE)
 	file.store_string(JSON.stringify(data_to_save, "\t"))
 	file.close()
 
-func load_gamestate(file_path:String):
-	var file = FileAccess.open(file_path, FileAccess.READ)
+func load_gamestate():
+	var file = FileAccess.open(SAVEGAME_PATH, FileAccess.READ)
 	if not file:
-		push_warning(str("No file at ", file_path))
+		push_warning(str("No file at ", SAVEGAME_PATH))
 		return {}
 	
 	var data : Dictionary = JSON.parse_string(file.get_as_text())

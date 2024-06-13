@@ -22,15 +22,10 @@ func _ready():
 	
 
 func _input(event: InputEvent) -> void:
-	#print(event)
 	if Input.is_action_just_pressed("ui_cancel") and $ScreenContainer.get_child_count() == 0:
 		set_screen(CONST.SCREEN_OPTIONS)
 		get_viewport().set_input_as_handled()
 
-func _gui_input(event: InputEvent) -> void:
-	print(event)
-	if Input.is_action_just_pressed("ui_cancel") and $ScreenContainer.get_child_count() == 0:
-		set_screen(CONST.SCREEN_OPTIONS)
 
 func set_screen(screen_path:String):
 	if screen_path.is_empty():

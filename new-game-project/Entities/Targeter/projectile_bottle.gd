@@ -39,9 +39,9 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		linear_velocity = Vector2(launch_direction * launch_force)
 		angular_velocity = randf_range(-60, 60)
 		launch = false
-	if linear_velocity.length() <= 35:
-		linear_velocity *= 0.5
-	elif linear_velocity.length() <= 85:
-		linear_velocity *= 0.9
+	#if linear_velocity.length() <= 35:
+		#linear_velocity *= 0.5
+	#elif linear_velocity.length() <= 85:
+		#linear_velocity *= 0.9
 
 

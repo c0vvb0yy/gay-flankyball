@@ -1,7 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://dbcmokh313nyl"]
+[gd_scene load_steps=3 format=3 uid="uid://dbcmokh313nyl"]
 
-[ext_resource type="PackedScene" uid="uid://cx4d3g7x71l2n" path="res://Entities/Player/player.tscn" id="1_ej6yu"]
+[ext_resource type="Script" path="res://Entities/game.gd" id="1_jsh3y"]
+[ext_resource type="PackedScene" uid="uid://dh74h2nx536c2" path="res://Entities/Targeter/target_bottle.tscn" id="3_gb2sd"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" groups=["ally", "enemy"]]
+script = ExtResource("1_jsh3y")
 
-[node name="Player" parent="." instance=ExtResource("1_ej6yu")]
+[node name="TargetBottleSpawnPosition" type="Node2D" parent="."]
+position = Vector2(526, 312)
+
+[node name="TargetBottle" parent="." instance=ExtResource("3_gb2sd")]
+position = Vector2(540, 281)
+
+[node name="Participants" type="Node2D" parent="."]

@@ -5,21 +5,11 @@ var pause_state_before_open:bool
 func _ready() -> void:
 	super()
 	
-	pause_state_before_open = Parser.paused
-	Parser.set_paused(true)
+	#pause_state_before_open = Parser.paused
+	#Parser.set_paused(true)
 	
 	find_child("QuitButton").visible = not OS.has_feature("web")
-	#find_child("GameButton").visible = GameWorld.stage_root.stage != CONST.STAGE_MAIN
-	#find_child("GameMenu").visible = GameWorld.stage_root.stage != CONST.STAGE_MAIN
-	
-	find_child("TextSpeedSlider").max_value = LineReader.MAX_TEXT_SPEED
-	find_child("TextSpeedSlider").value = Options.text_speed
-	find_child("AutoContinueCheckBox").button_pressed = Options.auto_continue
-	find_child("AutoDelaySlider").value = Options.auto_continue_delay
-	
-	_on_auto_continue_check_box_pressed()
-	_on_text_speed_slider_value_changed(Options.text_speed)
-	_on_auto_delay_slider_value_changed(Options.auto_continue_delay)
+
 	
 	find_child("FullscreenCheckBox").button_pressed = Options.fullscreen
 	
@@ -32,7 +22,7 @@ func _ready() -> void:
 
 func close():
 	Options.save_prefs()
-	Parser.set_paused(pause_state_before_open)
+	#Parser.set_paused(pause_state_before_open)
 	super.close()
 
 func _input(event: InputEvent) -> void:
@@ -96,27 +86,6 @@ func _on_auto_continue_check_box_pressed() -> void:
 	find_child("AutoDelayLabel").visible = check_box.button_pressed
 	
 	Options.auto_continue = check_box.button_pressed
-	if Parser.line_reader:
-		Parser.line_reader.auto_continue = check_box.button_pressed
-
-
-func _on_text_speed_slider_value_changed(value: float) -> void:
-	var label : Label = find_child("TextSpeedValueLabel")
-	if value == LineReader.MAX_TEXT_SPEED:
-		label.text = "Instant"
-	else:
-		label.text = str(value)
-	Options.text_speed = value
-	if Parser.line_reader:
-		Parser.line_reader.text_speed = value
-
-
-func _on_auto_delay_slider_value_changed(value: float) -> void:
-	var label : Label = find_child("AutoDelayLabel")
-	label.text = str(value, " s")
-	Options.auto_continue_delay = value
-	if Parser.line_reader:
-		Parser.line_reader.auto_continue_delay = value
 
 
 func _on_fullscreen_check_box_pressed() -> void:

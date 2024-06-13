@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dh74h2nx536c2"]
+
+[ext_resource type="Script" path="res://Entities/Targeter/target_bottle.gd" id="1_4hqsu"]
+[ext_resource type="Texture2D" uid="uid://dl4cf2xhtnvtn" path="res://Entities/Targeter/bottle.png" id="2_jl42t"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gq4h6"]
+radius = 13.0
+height = 56.0
+
+[node name="TargetBottle" type="RigidBody2D"]
+mass = 0.002
+linear_damp = 0.1
+script = ExtResource("1_4hqsu")
+
+[node name="Bottle" type="Sprite2D" parent="."]
+position = Vector2(-4, -7)
+scale = Vector2(0.0477395, 0.0477395)
+texture = ExtResource("2_jl42t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_gq4h6")

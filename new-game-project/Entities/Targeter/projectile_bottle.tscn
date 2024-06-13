@@ -10,9 +10,10 @@ rough = true
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xsg4g"]
 
 [node name="ProjectileBottle" type="RigidBody2D"]
-mass = 0.878
+mass = 0.5
 physics_material_override = SubResource("PhysicsMaterial_fnpsa")
 gravity_scale = 0.0
+linear_damp = 0.22
 script = ExtResource("1_uxowf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

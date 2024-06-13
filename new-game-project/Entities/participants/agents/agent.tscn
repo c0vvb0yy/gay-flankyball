@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bixvpwostebt8"]
+
+[ext_resource type="Script" path="res://Entities/participants/agents/agent.gd" id="1_afmu1"]
+[ext_resource type="Texture2D" uid="uid://b1lhiobpvncjk" path="res://Entities/participants/sprites/fishTile_072.png" id="2_joow7"]
+
+[node name="Agent" type="Node2D"]
+script = ExtResource("1_afmu1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_joow7")

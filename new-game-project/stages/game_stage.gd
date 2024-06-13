@@ -27,14 +27,21 @@ func _ready():
 	GameWorld.game_stage = self
 	
 	remove_blocker()
+	$Camera2D.position = $Game.get_center()
+	$Camera2D.zoom.x = $Game.get_extents().x / get_viewport_rect().size.x
+	$Camera2D.zoom.y = $Game.get_extents().x / get_viewport_rect().size.x
+	$Camera2D.zoom *= 2
+	printt(get_viewport_rect().size, $Game.get_extents())
 
 
 
 func show_ui():
-	find_child("VNUI").visible = true
+	pass
+	#find_child("VNUI").visible = true
 
 func hide_ui():
-	find_child("VNUI").visible = false
+	pass
+	#find_child("VNUI").visible = false
 
 func set_cg(cg_name:String, fade_in_duration:float, cg_node:TextureRect):
 	var cg_root : Control = cg_node.get_parent()
