@@ -1,22 +1,9 @@
 extends Node2D
 
-@onready
-var targeter = $Targeter
-
-@onready
-var bottle = $Bottle
-
+@onready var targeter : Targeter = $Targeter
 var bottle_thrown := false
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
+var force_modifier := 1.7
 
 func _input(event):
 	if(event.is_action_pressed("ui_accept")):
@@ -25,12 +12,11 @@ func _input(event):
 			return
 		if(!targeter.is_length_set):
 			targeter.is_length_set = true
-			return
-		if(!bottle_thrown):
 			bottle_thrown = true
 			throw_bottle()
 
 func throw_bottle():
-	print(targeter.pointer.transform.get_origin())
-	bottle.apply_central_impulse(targeter.pointer.global_position)
-	bottle.apply_torque_impulse(5000)
+	var bottle = preload("res://Entities/Targeter/projectile_bottle.tscn").instantiate()
+	GameWorld.game_stage.add_child(bottle)
+	bottle.global_position = global_position
+	bottle.launch_bottle(targeter.pointer.global_position.normalized(), targeter.pointer.global_position.length() * force_modifier)

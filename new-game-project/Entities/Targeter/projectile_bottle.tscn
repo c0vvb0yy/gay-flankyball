@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cep6jvp4hfigo"]
+
+[ext_resource type="Script" path="res://Entities/Targeter/projectile_bottle.gd" id="1_uxowf"]
+[ext_resource type="Texture2D" uid="uid://n4nn6qh8y5n5" path="res://icon.svg" id="1_xvxlo"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fnpsa"]
+friction = 0.26
+rough = true
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xsg4g"]
+
+[node name="ProjectileBottle" type="RigidBody2D"]
+mass = 0.878
+physics_material_override = SubResource("PhysicsMaterial_fnpsa")
+gravity_scale = 0.0
+script = ExtResource("1_uxowf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_xvxlo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_xsg4g")

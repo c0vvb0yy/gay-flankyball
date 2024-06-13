@@ -1,16 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cx4d3g7x71l2n"]
+[gd_scene load_steps=6 format=3 uid="uid://cx4d3g7x71l2n"]
 
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_iivgt"]
 [ext_resource type="Script" path="res://Entities/Targeter/Targeter.gd" id="2_s2io8"]
 [ext_resource type="Texture2D" uid="uid://dki1ulvk82wbo" path="res://assets/sprites/pointer.png" id="3_0wlei"]
 [ext_resource type="Texture2D" uid="uid://c57faoankxejj" path="res://assets/sprites/line.png" id="4_vm4gy"]
-[ext_resource type="Texture2D" uid="uid://n4nn6qh8y5n5" path="res://icon.svg" id="5_oqnyi"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fnpsa"]
-friction = 0.26
-rough = true
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xsg4g"]
+[ext_resource type="PackedScene" uid="uid://cep6jvp4hfigo" path="res://Entities/Targeter/projectile_bottle.tscn" id="5_aprhd"]
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_iivgt")
@@ -37,14 +31,4 @@ points = PackedVector2Array(-1, 0, 20.9999, 0.0496375)
 texture = ExtResource("4_vm4gy")
 texture_mode = 1
 
-[node name="Bottle" type="RigidBody2D" parent="."]
-mass = 0.878
-physics_material_override = SubResource("PhysicsMaterial_fnpsa")
-gravity_scale = 0.0
-
-[node name="Sprite2D" type="Sprite2D" parent="Bottle"]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("5_oqnyi")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bottle"]
-shape = SubResource("CapsuleShape2D_xsg4g")
+[node name="ProjectileBottle" parent="." instance=ExtResource("5_aprhd")]

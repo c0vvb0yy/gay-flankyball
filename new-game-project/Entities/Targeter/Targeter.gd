@@ -1,4 +1,5 @@
 extends Node2D
+class_name Targeter
 
 @export
 var rotation_speed : float
