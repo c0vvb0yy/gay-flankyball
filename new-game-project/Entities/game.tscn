@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbcmokh313nyl"]
+[gd_scene load_steps=5 format=3 uid="uid://dbcmokh313nyl"]
 
 [ext_resource type="Script" path="res://Entities/game.gd" id="1_jsh3y"]
 [ext_resource type="PackedScene" uid="uid://dh74h2nx536c2" path="res://Entities/Targeter/target_bottle.tscn" id="3_gb2sd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0txw3"]
+size = Vector2(20, 580)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_phulv"]
+size = Vector2(1518, 21)
 
 [node name="Game" type="Node2D" groups=["ally", "enemy"]]
 script = ExtResource("1_jsh3y")
@@ -13,3 +19,19 @@ position = Vector2(526, 312)
 position = Vector2(540, 281)
 
 [node name="Participants" type="Node2D" parent="."]
+
+[node name="OutOfBounds" type="Area2D" parent="."]
+
+[node name="Left" type="CollisionShape2D" parent="OutOfBounds"]
+position = Vector2(0, 280)
+shape = SubResource("RectangleShape2D_0txw3")
+
+[node name="Top" type="CollisionShape2D" parent="OutOfBounds"]
+position = Vector2(478, 0.5)
+shape = SubResource("RectangleShape2D_phulv")
+
+[node name="Right" type="CollisionShape2D" parent="OutOfBounds"]
+
+[node name="Bottom" type="CollisionShape2D" parent="OutOfBounds"]
+
+[connection signal="body_entered" from="OutOfBounds" to="." method="_on_out_of_bounds_body_entered"]

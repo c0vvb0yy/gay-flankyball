@@ -3,7 +3,6 @@
 [ext_resource type="Script" path="res://stages/main_menu_stage.gd" id="1_wqqgh"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_v60rc"]
-load_path = "res://.godot/imported/wallpaper.jpg-8ac285034c0ce7ba077da8ccfa2d5826.ctex"
 
 [node name="MainMenuStage" type="Control"]
 layout_mode = 3

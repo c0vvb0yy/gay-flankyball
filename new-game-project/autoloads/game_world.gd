@@ -5,6 +5,10 @@ var stage_root: StageRoot
 var game_stage: GameStage
 #var instruction_handler: InstructionHandler
 
+## state of the match. paused during minigames (killing transphobes)
+var match_paused:=false
+## global game pause state
+var paused:=false
 var camera : Camera2D
 
 var background := ""

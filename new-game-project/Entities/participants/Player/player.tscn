@@ -16,12 +16,20 @@ rotation_speed = 2.0
 line_extension_speed = 90.0
 max_line_length = 65.0
 
-[node name="Sprite2D" type="Sprite2D" parent="Targeter"]
+[node name="Pointer" type="Sprite2D" parent="Targeter"]
 texture_filter = 1
 position = Vector2(31.2, -0.2)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("3_0wlei")
 offset = Vector2(32, 0)
+
+[node name="SpreadTop" type="Node2D" parent="Targeter/Pointer"]
+position = Vector2(0, -44)
+
+[node name="SpreadBottom" type="Node2D" parent="Targeter/Pointer"]
+position = Vector2(1, 30)
+
+[node name="SpreadVisualizeLine" type="Line2D" parent="Targeter/Pointer"]
 
 [node name="Line2D" type="Line2D" parent="Targeter"]
 texture_filter = 1
@@ -31,5 +39,5 @@ points = PackedVector2Array(-1, 0, 20.9999, 0.0496375)
 texture = ExtResource("4_vm4gy")
 texture_mode = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("5_nbi5v")

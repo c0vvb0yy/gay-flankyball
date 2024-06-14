@@ -1,5 +1,4 @@
-extends Node2D
+extends Participant
 
-func set_character(character:String):
-	pass
-	# set sprite and stuff
+func _ready() -> void:
+	super()
