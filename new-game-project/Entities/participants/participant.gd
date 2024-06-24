@@ -9,6 +9,8 @@ enum State{
 }
 var state := State.Idle
 
+@onready var catcher : Node2D = $Catcher
+
 ## which shape is used for catching incoming bottles
 @export var catch_shape : Polygon2D
 ## peed at which the target bottle is put back and the participant moves
@@ -22,10 +24,18 @@ const BASE_ALCOHOL_TOLERANCE := 15.0
 @export var accuracy := 10.0
 
 var active := false
+var alcohol_level := 0.0
 
 var drinking_bottle:Node2D
+var start_position
 
 signal participant_finished_drinking(participant:Participant)
+
+func get_drunk_sway():
+	var sway = sin(GameWorld.time)
+	# TODO this is wrong
+	var amp := alcohol_level / alcohol_tolerance
+	return sway# * amp
 
 func _ready() -> void:
 	set_active(false)
@@ -37,7 +47,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if state == State.Drinking:
-		drinking_bottle.take_sip(delta)
+		alcohol_level += drinking_bottle.take_sip(delta)
 
 func set_active(value:bool):
 	active = value
@@ -55,8 +65,11 @@ func set_character(character:String):
 
 
 func throw_bottle(throw_direction:Vector2, force:float):
+	for bottle : ProjectileBottle in get_tree().get_nodes_in_group("projectile"):
+		bottle.queue_free()
 	var bottle = preload("res://Entities/Targeter/projectile_bottle.tscn").instantiate()
 	GameWorld.game_stage.add_child(bottle)
+	GameWorld.game_stage.thrown_bottle = bottle
 	bottle.global_position = global_position
 	throw_direction = throw_direction.normalized()
 	bottle.launch_bottle(throw_direction, force * (BASE_THROW_FORCE + throw_force))
@@ -68,6 +81,20 @@ func start_defending():
 func start_drinking():
 	state = State.Drinking
 
-func attempt_catch():
-	print("catch")
+func stun():
 	pass
+
+func start_idling():
+	state = State.Idle
+
+func attempt_catch():
+	if catcher.has_bottle:
+		GameWorld.game_stage.game.reset_target_bottle()
+		GameWorld.game_stage.game.start_next_round()
+		reset_to_start_position()
+	else:
+		stun()
+
+func reset_to_start_position():
+	# TODO: vfx
+	global_position = start_position

@@ -1,10 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://bixvpwostebt8"]
+[gd_scene load_steps=4 format=3 uid="uid://bixvpwostebt8"]
 
 [ext_resource type="Script" path="res://Entities/participants/agents/agent.gd" id="1_afmu1"]
 [ext_resource type="Texture2D" uid="uid://b1lhiobpvncjk" path="res://Entities/participants/sprites/fishTile_072.png" id="2_joow7"]
+[ext_resource type="PackedScene" uid="uid://bsm2hvdnwg03s" path="res://Entities/participants/catcher.tscn" id="3_rfjgc"]
 
 [node name="Agent" type="Node2D"]
 script = ExtResource("1_afmu1")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_joow7")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+radius = 33.33
+
+[node name="Catcher" parent="." instance=ExtResource("3_rfjgc")]
+
+[connection signal="bottle_entered" from="Catcher" to="." method="_on_catcher_bottle_entered"]
+[connection signal="bottle_exited" from="Catcher" to="." method="_on_catcher_bottle_exited"]

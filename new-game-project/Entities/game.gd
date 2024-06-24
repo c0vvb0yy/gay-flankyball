@@ -75,6 +75,7 @@ func add_player(character:String, allied:bool, delay:=0.0):
 	var t = create_tween()
 	t.tween_property(participant, "position", goal_position, randf_range(0.7, 3.5))
 	t.tween_callback(remove_player_blocker)
+	participant.start_position = goal_position
 	# TODO: after delay, the player enters from off screen
 	# when they have reached their goal opsition, they emit a signal to reduce blockers here
 	# when 0 blockers are reached, call start_match
@@ -97,8 +98,11 @@ func remove_player_blocker():
 		start_match()
 
 func reset_target_bottle():
-	var target_bottle := $TargetBottle
+	var target_bottle : RigidBody2D = $TargetBottle
 	target_bottle.position = $TargetBottleSpawnPosition.position
+	target_bottle.linear_velocity = Vector2.ZERO
+	target_bottle.angular_velocity = 0
+	target_bottle.rotation = 0
 
 func on_participant_finished_drinking(participant:Participant):
 	if participant in participants_allied:
@@ -111,6 +115,7 @@ func on_participant_finished_drinking(participant:Participant):
 			prints("enemy victory")
 
 func start_match():
+	get_tree().create_timer(2)
 	print("start")
 	# build turn order
 	var player_count = team_members_enemy.size() + team_members_allied.size()
@@ -134,6 +139,17 @@ func start_defense():
 			part.start_drinking()
 	
 	defender.start_defending()
+
+func start_next_round():
+	await get_tree().create_timer(2)
+	for participant : Participant in turn_order:
+		participant.start_idling()
+	if is_attacker_allied():
+		defender_index_enemy = wrapi(defender_index_enemy + 1, 0, participants_enemy.size())
+	else:
+		defender_index_allied = wrapi(defender_index_allied + 1, 0, participants_allied.size())
+	turn_order_index = wrapi(turn_order_index + 1, 0, turn_order.size())
+	turn_order[turn_order_index].set_active(true)
 
 func trigger_out_of_bounds():
 	print("out of bounds")

@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cx4d3g7x71l2n"]
+[gd_scene load_steps=7 format=3 uid="uid://cx4d3g7x71l2n"]
 
 [ext_resource type="Script" path="res://Entities/participants/Player/player.gd" id="1_iivgt"]
 [ext_resource type="Script" path="res://Entities/Targeter/Targeter.gd" id="2_s2io8"]
 [ext_resource type="Texture2D" uid="uid://dki1ulvk82wbo" path="res://assets/sprites/pointer.png" id="3_0wlei"]
 [ext_resource type="Texture2D" uid="uid://c57faoankxejj" path="res://assets/sprites/line.png" id="4_vm4gy"]
 [ext_resource type="Texture2D" uid="uid://clqsmjlipty0i" path="res://Entities/participants/sprites/fishTile_074.png" id="5_nbi5v"]
+[ext_resource type="PackedScene" uid="uid://bsm2hvdnwg03s" path="res://Entities/participants/catcher.tscn" id="6_adpd4"]
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_iivgt")
@@ -42,4 +43,10 @@ texture_mode = 1
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("5_nbi5v")
 
-[node name="Catcher" type="Node2D" parent="."]
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+radius = 33.33
+
+[node name="Catcher" parent="." instance=ExtResource("6_adpd4")]
+
+[connection signal="bottle_entered" from="Catcher" to="." method="_on_catcher_bottle_entered"]
+[connection signal="bottle_exited" from="Catcher" to="." method="_on_catcher_bottle_exited"]

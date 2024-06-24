@@ -19,6 +19,7 @@ var is_name_container_visible := false
 
 @onready var cg_roots := [find_child("CGBottomContainer"), find_child("CGTopContainer")]
 var blockers := 1
+var thrown_bottle : ProjectileBottle
 
 @onready var game = $Game
 var callable_upon_blocker_clear:Callable
@@ -35,6 +36,11 @@ func _ready():
 
 func get_target_bottle_position() -> Vector2:
 	return $Game.find_child("TargetBottle").global_position
+
+func get_thrown_bottle_position() -> Vector2:
+	if not thrown_bottle:
+		return get_target_bottle_position()
+	return thrown_bottle.global_position
 
 func show_ui():
 	pass

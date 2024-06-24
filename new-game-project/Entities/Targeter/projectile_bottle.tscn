@@ -9,7 +9,7 @@ rough = true
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xsg4g"]
 
-[node name="ProjectileBottle" type="RigidBody2D"]
+[node name="ProjectileBottle" type="RigidBody2D" groups=["projectile"]]
 mass = 0.5
 physics_material_override = SubResource("PhysicsMaterial_fnpsa")
 gravity_scale = 0.0

@@ -12,6 +12,7 @@ var paused:=false
 var camera : Camera2D
 
 var background := ""
+var time := 0.0
 
 enum MatchState{
 	Aiming,
@@ -24,6 +25,9 @@ enum MatchState{
 
 func _ready() -> void:
 	Data.apply("gameworld.matchstate", MatchState.Starting)
+
+func _process(delta: float) -> void:
+	time += delta
 
 func serialize():
 	var result := {}
