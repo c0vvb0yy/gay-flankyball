@@ -1,6 +1,14 @@
 extends Node2D
 class_name Participant
 
+enum State{
+	Defending,
+	Aiming,
+	Idle,
+	Drinking
+}
+var state := State.Idle
+
 ## which shape is used for catching incoming bottles
 @export var catch_shape : Polygon2D
 ## peed at which the target bottle is put back and the participant moves
@@ -13,11 +21,26 @@ const BASE_ALCOHOL_TOLERANCE := 15.0
 ## we need to launch the projectile in a cone. this defines the spread of it
 @export var accuracy := 10.0
 
+var active := false
+
+var drinking_bottle:Node2D
+
+signal participant_finished_drinking(participant:Participant)
+
 func _ready() -> void:
 	set_active(false)
+	var bottle = preload("res://Entities/participants/drinking_bottle.tscn").instantiate()
+	add_child(bottle)
+	bottle.bottle_empty.connect(emit_signal.bind("participant_finished_drinking", self))
+	drinking_bottle = bottle
+	drinking_bottle.position.x += 20
+
+func _process(delta: float) -> void:
+	if state == State.Drinking:
+		drinking_bottle.take_sip(delta)
 
 func set_active(value:bool):
-	pass
+	active = value
 
 func set_allied(allied:bool):
 	if allied:
@@ -29,3 +52,22 @@ func set_allied(allied:bool):
 func set_character(character:String):
 	pass
 	# set sprite and stuff
+
+
+func throw_bottle(throw_direction:Vector2, force:float):
+	var bottle = preload("res://Entities/Targeter/projectile_bottle.tscn").instantiate()
+	GameWorld.game_stage.add_child(bottle)
+	bottle.global_position = global_position
+	throw_direction = throw_direction.normalized()
+	bottle.launch_bottle(throw_direction, force * (BASE_THROW_FORCE + throw_force))
+	set_active(false)
+
+func start_defending():
+	state = State.Defending
+
+func start_drinking():
+	state = State.Drinking
+
+func attempt_catch():
+	print("catch")
+	pass

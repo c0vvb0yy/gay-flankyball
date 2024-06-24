@@ -41,3 +41,5 @@ texture_mode = 1
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("5_nbi5v")
+
+[node name="Catcher" type="Node2D" parent="."]

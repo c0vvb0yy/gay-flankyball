@@ -14,6 +14,8 @@ var launch_force:float
 var launch_direction:Vector2
 var still_cooldown := 2.0
 
+signal start_defense()
+
 func _ready() -> void:
 	set_process(false)
 

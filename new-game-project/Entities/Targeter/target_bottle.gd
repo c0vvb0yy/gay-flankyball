@@ -1,5 +1,5 @@
 extends RigidBody2D
-
+class_name TargetBottle
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

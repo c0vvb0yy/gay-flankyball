@@ -20,7 +20,7 @@ var is_name_container_visible := false
 @onready var cg_roots := [find_child("CGBottomContainer"), find_child("CGTopContainer")]
 var blockers := 1
 
-
+@onready var game = $Game
 var callable_upon_blocker_clear:Callable
 
 func _ready():
@@ -28,12 +28,13 @@ func _ready():
 	
 	remove_blocker()
 	$Camera2D.position = $Game.get_center()
-	$Camera2D.zoom.x = $Game.get_extents().x / get_viewport_rect().size.x
-	$Camera2D.zoom.y = $Game.get_extents().x / get_viewport_rect().size.x
-	$Camera2D.zoom *= 2
-	printt(get_viewport_rect().size, $Game.get_extents())
+	#$Camera2D.zoom.x = $Game.get_extents().x / get_viewport_rect().size.x
+	#$Camera2D.zoom.y = $Game.get_extents().x / get_viewport_rect().size.x
+	#$Camera2D.zoom *= 2
+	#printt(get_viewport_rect().size, $Game.get_extents())
 
-
+func get_target_bottle_position() -> Vector2:
+	return $Game.find_child("TargetBottle").global_position
 
 func show_ui():
 	pass

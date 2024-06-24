@@ -3,6 +3,8 @@ class_name Game
 
 var participants_allied : Array[Participant] = []
 var participants_enemy : Array[Participant] = []
+var finished_allied : Array[Participant] = []
+var finished_enemy : Array[Participant] = []
 var turn_order : Array[Participant] = []
 var turn_order_index := 0
 var defender_index_allied := 0 # determines which team member has to run to the target bottle to fix it
@@ -27,6 +29,10 @@ func get_extents() -> Vector2:
 	
 	return extents
 
+func is_attacker_allied() -> bool:
+	var active_participant = turn_order[turn_order_index]
+	return participants_allied.has(active_participant)
+
 func get_center():
 	return $TargetBottleSpawnPosition.global_position
 
@@ -42,6 +48,7 @@ func add_player(character:String, allied:bool, delay:=0.0):
 	else:
 		participant = preload("res://Entities/participants/agents/agent.tscn").instantiate()
 	$Participants.add_child(participant)
+	participant.participant_finished_drinking.connect(on_participant_finished_drinking)
 	participant.set_character(character)
 	participant.set_allied(allied)
 	if allied:
@@ -93,6 +100,16 @@ func reset_target_bottle():
 	var target_bottle := $TargetBottle
 	target_bottle.position = $TargetBottleSpawnPosition.position
 
+func on_participant_finished_drinking(participant:Participant):
+	if participant in participants_allied:
+		finished_allied.append(participant)
+		if finished_allied.size() == participants_allied.size():
+			print("allied victory")
+	elif participant in participants_enemy:
+		finished_enemy.append(participant)
+		if finished_enemy.size() == participants_enemy.size():
+			prints("enemy victory")
+
 func start_match():
 	print("start")
 	# build turn order
@@ -104,6 +121,20 @@ func start_match():
 			turn_order.append(participants_allied[(i-1) / 2])
 	turn_order[turn_order_index].set_active(true)
 
+func start_defense():
+	print("defend")
+	var defender:Participant
+	if is_attacker_allied():
+		defender = participants_enemy[defender_index_enemy]
+		for part in participants_allied:
+			part.start_drinking()
+	else:
+		defender = participants_allied[defender_index_allied]
+		for part in participants_enemy:
+			part.start_drinking()
+	
+	defender.start_defending()
+
 func trigger_out_of_bounds():
 	print("out of bounds")
 	pass
@@ -114,3 +145,8 @@ func trigger_out_of_bounds():
 func _on_out_of_bounds_body_entered(body: Node2D) -> void:
 	if body is ProjectileBottle:
 		trigger_out_of_bounds()
+
+
+func _on_target_bottle_body_entered(body: Node) -> void:
+	if body is ProjectileBottle:
+		start_defense()

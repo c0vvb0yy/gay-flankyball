@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Data="*res://autoloads/data.tscn"
 CONST="*res://autoloads/const.tscn"
 GameWorld="*res://autoloads/game_world.gd"
 Options="*res://autoloads/options.gd"

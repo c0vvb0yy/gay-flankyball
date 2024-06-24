@@ -13,6 +13,17 @@ var camera : Camera2D
 
 var background := ""
 
+enum MatchState{
+	Aiming,
+	Interrupted,
+	ProjectileInAir,
+	DefenseAndDrinking,
+	Ended,
+	Starting
+}
+
+func _ready() -> void:
+	Data.apply("gameworld.matchstate", MatchState.Starting)
 
 func serialize():
 	var result := {}
