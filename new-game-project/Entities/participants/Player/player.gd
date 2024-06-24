@@ -13,7 +13,11 @@ func _ready() -> void:
 	super()
 
 func _input(event):
-	if event.is_action_pressed("ui_accept") and state == State.Aiming:
+	var left_click := false
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			left_click = true
+	if (event.is_action_pressed("ui_accept") or left_click) and state == State.Aiming:
 		if not targeter.is_rotation_set:
 			targeter.is_rotation_set = true
 			return
@@ -24,12 +28,13 @@ func _input(event):
 	if state == State.Defending:
 		catcher.look_at(get_global_mouse_position())
 		#catcher.rotate(get_drunk_sway() * 0.5)
-		if event is InputEventMouseButton:
-			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-				attempt_catch()
-				print("hsdgfhsdg")
+		if left_click:
+			attempt_catch()
+			print("hsdgfhsdg")
 
 func _physics_process(delta: float) -> void:
+	if state != State.Defending:
+		return
 	var input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 
 	if input_direction != Vector2.ZERO:
@@ -39,6 +44,7 @@ func _physics_process(delta: float) -> void:
 		#position = lerp(position, position + input * deftness, 0.1)
 
 func set_active(value:bool):
+	await  get_tree().process_frame
 	super(value)
 	state = State.Aiming
 	$Targeter.visible = active
@@ -57,7 +63,6 @@ func throw_bottle_targeted():
 func start_defending():
 	super()
 	$Catcher.visible = true
-	print("PLAYER DEFENDS")
 
 
 func _on_catcher_bottle_entered() -> void:

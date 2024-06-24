@@ -89,9 +89,10 @@ func start_idling():
 
 func attempt_catch():
 	if catcher.has_bottle:
-		GameWorld.game_stage.game.reset_target_bottle()
-		GameWorld.game_stage.game.start_next_round()
 		reset_to_start_position()
+		GameWorld.game_stage.game.call_deferred("reset_target_bottle")
+		GameWorld.game_stage.game.call_deferred("start_next_round")
+		
 	else:
 		stun()
 

@@ -36,7 +36,7 @@ func is_attacker_allied() -> bool:
 func get_center():
 	return $TargetBottleSpawnPosition.global_position
 
-func add_player(character:String, allied:bool, delay:=0.0):
+func add_participant(character:String, allied:bool, delay:=0.0):
 	var team_members:int
 	if allied:
 		team_members = team_members_allied.size()
@@ -74,30 +74,33 @@ func add_player(character:String, allied:bool, delay:=0.0):
 	
 	var t = create_tween()
 	t.tween_property(participant, "position", goal_position, randf_range(0.7, 3.5))
-	t.tween_callback(remove_player_blocker)
+	t.tween_callback(remove_participant_blocker)
 	participant.start_position = goal_position
 	# TODO: after delay, the player enters from off screen
 	# when they have reached their goal opsition, they emit a signal to reduce blockers here
 	# when 0 blockers are reached, call start_match
 
-var player_blockers := 0
+var participant_blockers := 0
 func initiate_match():
 	participants_enemy.clear()
 	participants_allied.clear()
 	turn_order_index = 0
-	player_blockers = team_members_enemy.size() + team_members_allied.size()
+	participant_blockers = team_members_enemy.size() + team_members_allied.size()
 	reset_target_bottle()
 	for i in team_members_allied.size():
-		add_player(team_members_allied[i], true, i * randf_range(1.5, 2.5))
+		add_participant(team_members_allied[i], true, i * randf_range(1.5, 2.5))
 	for i in team_members_enemy.size():
-		add_player(team_members_enemy[i], false, i * randf_range(1.5, 2.5))
+		add_participant(team_members_enemy[i], false, i * randf_range(1.5, 2.5))
 
-func remove_player_blocker():
-	player_blockers -= 1
-	if player_blockers <= 0:
+func remove_participant_blocker():
+	participant_blockers -= 1
+	if participant_blockers <= 0:
 		start_match()
 
 func reset_target_bottle():
+	print("resetting")
+	for bottle : ProjectileBottle in get_tree().get_nodes_in_group("projectile"):
+		bottle.queue_free()
 	var target_bottle : RigidBody2D = $TargetBottle
 	target_bottle.position = $TargetBottleSpawnPosition.position
 	target_bottle.linear_velocity = Vector2.ZERO
@@ -116,10 +119,9 @@ func on_participant_finished_drinking(participant:Participant):
 
 func start_match():
 	get_tree().create_timer(2)
-	print("start")
 	# build turn order
-	var player_count = team_members_enemy.size() + team_members_allied.size()
-	for i in player_count:
+	var participant_count = team_members_enemy.size() + team_members_allied.size()
+	for i in participant_count:
 		if i % 2 == 0:# enemy on odds so allied team always goes first
 			turn_order.append(participants_enemy[i / 2])
 		else:
@@ -127,7 +129,6 @@ func start_match():
 	turn_order[turn_order_index].set_active(true)
 
 func start_defense():
-	print("defend")
 	var defender:Participant
 	if is_attacker_allied():
 		defender = participants_enemy[defender_index_enemy]
